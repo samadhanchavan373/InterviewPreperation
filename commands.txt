@@ -1,0 +1,3094 @@
+#kuberneters is developed in GoLang
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>docker context use default
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl apply -f deployment.yml
+deployment.apps/sample-python-app created
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl get deploy
+NAME                READY   UP-TO-DATE   AVAILABLE   AGE
+sample-python-app   2/2     2            2           5s
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl get pods 
+NAME                                 READY   STATUS    RESTARTS   AGE
+sample-python-app-5d744bb6f9-d65dv   1/1     Running   0          43s
+sample-python-app-5d744bb6f9-kdvjs   1/1     Running   0          43s
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl get replicaset
+NAME                           DESIRED   CURRENT   READY   AGE
+sample-python-app-5d744bb6f9   2         2         2       113s
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl get pods -o wide
+NAME                                 READY   STATUS    RESTARTS   AGE     IP            NODE       NOMINATED NODE   READINESS GATES
+sample-python-app-5d744bb6f9-d65dv   1/1     Running   0          2m17s   10.244.0.10   minikube   <none>           <none>
+sample-python-app-5d744bb6f9-kdvjs   1/1     Running   0          2m17s   10.244.0.9    minikube   <none>           <none>
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl get pod -v=7
+
+I1207 02:50:57.996090   16252 loader.go:395] Config loaded from file:  C:\Users\Admin\.kube\config
+I1207 02:50:58.002204   16252 cert_rotation.go:137] Starting client certificate rotation controller
+I1207 02:50:58.030458   16252 round_trippers.go:463] GET https://127.0.0.1:57781/api/v1/namespaces/default/pods?limit=500
+I1207 02:50:58.030458   16252 round_trippers.go:469] Request Headers:
+I1207 02:50:58.030458   16252 round_trippers.go:473]     Accept: application/json;as=Table;v=v1;g=meta.k8s.io,application/json;as=Table;v=v1beta1;g=meta.k8s.io,application/json
+I1207 02:50:58.030458   16252 round_trippers.go:473]     User-Agent: kubectl/v1.29.2 (windows/amd64) kubernetes/4b8e819
+I1207 02:50:58.050999   16252 round_trippers.go:574] Response Status: 200 OK in 20 milliseconds
+NAME                                 READY   STATUS    RESTARTS   AGE
+sample-python-app-5d744bb6f9-d65dv   1/1     Running   0          5m49s
+sample-python-app-5d744bb6f9-kdvjs   1/1     Running   0          5m49s
+
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl delete pod sample-python-app-5d744bb6f9-d65dv
+pod "sample-python-app-5d744bb6f9-d65dv" deleted
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl get pods
+NAME                                 READY   STATUS    RESTARTS   AGE
+sample-python-app-5d744bb6f9-9xrrd   1/1     Running   0          13s
+sample-python-app-5d744bb6f9-kdvjs   1/1     Running   0          7m47s
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl get pods -o wide
+NAME                                 READY   STATUS    RESTARTS   AGE    IP            NODE       NOMINATED NODE   READINESS GATES
+sample-python-app-5d744bb6f9-9xrrd   1/1     Running   0          30s    10.244.0.11   minikube   <none>           <none>
+sample-python-app-5d744bb6f9-kdvjs   1/1     Running   0          8m4s   10.244.0.9    minikube   <none>           <none>
+
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>minikube ssh
+
+docker@minikube:~$ 
+docker@minikube:~$ curl -L http://10.244.0.11:8000/demo
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>CSS Template</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Style the header */
+header {
+  background-color: #666;
+  padding: 30px;
+  text-align: center;
+  font-size: 35px;
+  color: yellow;
+}
+
+/* Create two columns/boxes that floats next to each other */
+nav {
+  float: left;
+  width: 30%;
+  height: 300px; /* only for demonstration, should be removed */
+  background: #ccc;
+  padding: 20px;
+}
+
+/* Style the list inside the menu */
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+article {
+  float: left;
+  padding: 20px;
+  width: 70%;
+  background-color: #f1f1f1;
+  height: 300px; /* only for demonstration, should be removed */
+}
+
+/* Clear floats after the columns */
+section::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Style the footer */
+footer {
+  background-color: #777;
+  padding: 10px;
+  text-align: center;
+  color: yellow;
+}
+
+/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+@media (max-width: 600px) {
+  nav, article {
+    width: 100%;
+    height: auto;
+  }
+}
+</style>
+</head>
+<body>
+
+
+<header>
+  <h2>Free DevOps Course By Abhishek</h2>
+</header>
+
+<section>
+  <nav>
+    <ul>
+      <li><a href="www.youtube.com/@AbhishekVeeramalla">YouTube</a></li>
+      <li><a href="www.linkedin.com/in/abhishek-veeramalla-77b33996/">LinkedIn</a></li>
+      <li><a href="https://telegram.me/abhishekveeramalla">Telegram</a></li>
+    </ul>
+  </nav>
+
+  <article>
+    <h1>Agenda</h1>
+    <p>Learn DevOps with strong foundational knowledge and practical understanding</p>
+    <p>Please Share the Channel with your friends and colleagues</p>
+  </article>
+</section>
+
+<footer>
+  <p>@AbhishekVeeramalla</p>
+</footer>
+
+</body>
+</html>
+
+
+
+
+
+docker@minikube:~$ exit
+logout
+
+
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>curl -L http://10.244.0.11:8000/demo
+curl: (28) Failed to connect to 10.244.0.11 port 8000 after 21047 ms: Could not connect to server
+
+
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl apply -f service.yml
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl get svc
+NAME                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+kubernetes                  ClusterIP   10.96.0.1        <none>        443/TCP        115m
+python-django-app-service   NodePort    10.100.247.236   <none>        80:30007/TCP   29m
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>minikube ssh
+docker@minikube:~$ curl -L http://10.100.247.236:80/demo
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>CSS Template</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Style the header */
+header {
+  background-color: #666;
+  padding: 30px;
+  text-align: center;
+  font-size: 35px;
+  color: yellow;
+}
+
+/* Create two columns/boxes that floats next to each other */
+nav {
+  float: left;
+  width: 30%;
+  height: 300px; /* only for demonstration, should be removed */
+  background: #ccc;
+  padding: 20px;
+}
+
+/* Style the list inside the menu */
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+article {
+  float: left;
+  padding: 20px;
+  width: 70%;
+  background-color: #f1f1f1;
+  height: 300px; /* only for demonstration, should be removed */
+}
+
+/* Clear floats after the columns */
+section::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Style the footer */
+footer {
+  background-color: #777;
+  padding: 10px;
+  text-align: center;
+  color: yellow;
+}
+
+/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+@media (max-width: 600px) {
+  nav, article {
+    width: 100%;
+    height: auto;
+  }
+}
+</style>
+</head>
+<body>
+
+
+<header>
+  <h2>Free DevOps Course By Abhishek</h2>
+</header>
+
+<section>
+  <nav>
+    <ul>
+      <li><a href="www.youtube.com/@AbhishekVeeramalla">YouTube</a></li>
+      <li><a href="www.linkedin.com/in/abhishek-veeramalla-77b33996/">LinkedIn</a></li>
+      <li><a href="https://telegram.me/abhishekveeramalla">Telegram</a></li>
+    </ul>
+  </nav>
+
+  <article>
+    <h1>Agenda</h1>
+    <p>Learn DevOps with strong foundational knowledge and practical understanding</p>
+    <p>Please Share the Channel with your friends and colleagues</p>
+  </article>
+</section>
+
+<footer>
+  <p>@AbhishekVeeramalla</p>
+</footer>
+
+</body>
+</html>
+
+docker@minikube:~$ exit
+logout
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>minikube service python-django-app-service --url
+http://127.0.0.1:63931
+
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>curl -L http://127.0.0.1:63931/demo
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>CSS Template</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Style the header */
+header {
+  background-color: #666;
+  padding: 30px;
+  text-align: center;
+  font-size: 35px;
+  color: yellow;
+}
+
+/* Create two columns/boxes that floats next to each other */
+nav {
+  float: left;
+  width: 30%;
+  height: 300px; /* only for demonstration, should be removed */
+  background: #ccc;
+  padding: 20px;
+}
+
+/* Style the list inside the menu */
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+article {
+  float: left;
+  padding: 20px;
+  width: 70%;
+  background-color: #f1f1f1;
+  height: 300px; /* only for demonstration, should be removed */
+}
+
+/* Clear floats after the columns */
+section::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Style the footer */
+footer {
+  background-color: #777;
+  padding: 10px;
+  text-align: center;
+  color: yellow;
+}
+
+/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+@media (max-width: 600px) {
+  nav, article {
+    width: 100%;
+    height: auto;
+  }
+}
+</style>
+</head>
+<body>
+
+
+<header>
+  <h2>Free DevOps Course By Abhishek</h2>
+</header>
+
+<section>
+  <nav>
+    <ul>
+      <li><a href="www.youtube.com/@AbhishekVeeramalla">YouTube</a></li>
+      <li><a href="www.linkedin.com/in/abhishek-veeramalla-77b33996/">LinkedIn</a></li>
+      <li><a href="https://telegram.me/abhishekveeramalla">Telegram</a></li>
+    </ul>
+  </nav>
+
+  <article>
+    <h1>Agenda</h1>
+    <p>Learn DevOps with strong foundational knowledge and practical understanding</p>
+    <p>Please Share the Channel with your friends and colleagues</p>
+  </article>
+</section>
+
+<footer>
+  <p>@AbhishekVeeramalla</p>
+</footer>
+
+</body>
+</html>
+
+
+
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl edit svc python-django-app-service
+service/python-django-app-service edited
+
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl get svc
+NAME                        TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+kubernetes                  ClusterIP      10.96.0.1        <none>        443/TCP        126m
+python-django-app-service   LoadBalancer   10.100.247.236   <pending>     80:30007/TCP   40m
+
+# since we are in local local EXTERNAL-IP will not be assigned but if we are in cloud then it will be assigned by cloud controller manager
+
+
+
+
+#install helm
+C:\Windows\system32>choco install kubernetes-helm
+
+# set env PATH
+
+
+
+#install kubeshark  (traffic analyzer)
+C:\Users\Admin>helm repo add kubeshark https://helm.kubehq.com
+
+C:\Users\Admin>helm repo add kubeshark https://helm.kubehq.com
+
+
+C:\Users\Admin>kubectl port-forward service/kubeshark-front 8899:80  #your machine port: service port
+
+# open localhost:8899 to see kubeshark UI
+
+
+kubectl port-forward pod/sample-python-app-5d744bb6f9-kdvjs 8080:80
+
+
+
+
+
+
+
+
+
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl apply -f ingress.yml
+ingress.networking.k8s.io/ingress-wildcard-host created
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl get ingress
+NAME                    CLASS    HOSTS         ADDRESS   PORTS   AGE
+ingress-wildcard-host   <none>   foo.bar.com             80      13s                                   # address is empty
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>minikube addons enable ingress
+
+* ingress is an addon maintained by Kubernetes. For any concerns contact minikube on GitHub.
+You can view the list of minikube maintainers at: https://github.com/kubernetes/minikube/blob/master/OWNERS
+! Executing "docker container inspect minikube --format={{.State.Status}}" took an unusually long time: 2.9497449s
+* Restarting the docker service may improve performance.
+* After the addon is enabled, please run "minikube tunnel" and your ingress resources would be available at "127.0.0.1"
+  - Using image registry.k8s.io/ingress-nginx/controller:v1.13.2
+  - Using image registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.6.2
+  - Using image registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.6.2
+* Verifying ingress addon...
+* The 'ingress' addon is enabled
+
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl get ingress
+NAME                    CLASS    HOSTS         ADDRESS        PORTS   AGE
+ingress-wildcard-host   <none>   foo.bar.com   192.168.49.2   80      16m                # address is created after creating ingress controller.
+
+
+
+
+
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl apply -f configmap.yml
+configmap/test-cm created
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl describe cm test-cm
+Name:         test-cm
+Namespace:    default
+Labels:       <none>
+Annotations:  <none>
+
+Data
+====
+db-port:
+----
+3306
+
+BinaryData
+====
+
+Events:  <none>
+
+
+
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl get pods -o wide
+NAME                                 READY   STATUS    RESTARTS        AGE   IP             NODE       NOMINATED NODE   READINESS GATES
+kubeshark-front-68589fd4d8-h2bkt     1/1     Running   3 (4m56s ago)   30h   10.244.0.21    minikube   <none>           <none>
+kubeshark-hub-79ddf8c7df-lwdqq       1/1     Running   2 (5m ago)      30h   10.244.0.25    minikube   <none>           <none>
+kubeshark-worker-daemon-set-cmvnx    2/2     Running   2 (6m18s ago)   30h   192.168.49.2   minikube   <none>           <none>
+sample-python-app-5d744bb6f9-9xrrd   1/1     Running   2 (6m18s ago)   44h   10.244.0.20    minikube   <none>           <none>
+sample-python-app-5d744bb6f9-kdvjs   1/1     Running   2 (6m18s ago)   44h   10.244.0.23    minikube   <none>           <none>
+
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl exec -it sample-python-app-5d744bb6f9-9xrrd -- /bin/bash
+
+root@sample-python-app-5d744bb6f9-9xrrd:/app# env | grep db   #will not show any environment variable
+
+
+#update the deployment to add environment
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-python-app
+  labels:
+    app: sample-python-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sample-python-app
+  template: #pod
+    metadata:
+      labels:
+        app: sample-python-app
+    spec:
+      containers:
+      - name: python-app
+        image: abhishekf5/python-sample-app-demo:v1
+        env:
+         - name : DB-PORT
+           valueFrom:
+             configMapRef:
+               name : test-cm
+               key: db-port
+            
+        ports:
+        - containerPort: 8000
+
+
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl apply -f deployment.yml
+deployment.apps/sample-python-app configured
+
+
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl exec -it sample-python-app-7d8474cd54-5sr2t -- /bin/bash
+
+root@sample-python-app-7d8474cd54-5sr2t:/app# env | grep DB_PORT
+DB_PORT=3306
+
+
+
+
+#This seems to be good, but there is one problem. Now, what if I change the port from 3306 to 3307 in configmap YML. 
+Then I need to re-apply Deployment YML. 
+#This will create new container and will destroy old container. So, this is not a good practice. 
+So, those environment variables which tends to change should 
+#be placed inside VolumeMounts instead of ConfigMaps.
+
+
+#so here the environment variables will be saved inside a file in a volume and then application or pod can read these values from file
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-python-app
+  labels:
+    app: sample-python-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sample-python-app
+  template: #pod
+    metadata:
+      labels:
+        app: sample-python-app
+    spec:
+      containers:
+       - name: python-app
+         image: abhishekf5/python-sample-app-demo:v1
+        #env:
+         #- name: DB_PORT
+         #  valueFrom:
+         #   configMapKeyRef:
+           #  name: test-cm
+          #   key: db-port
+
+         volumeMounts:
+          - name: db-connection
+            mountPath : /opt
+         ports:
+          - containerPort: 8000
+        
+      volumes:
+        - name: db-connection
+          configMap:
+            name: test-cm 
+			
+			
+			
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl apply -f deployment.yml
+deployment.apps/sample-python-app configured
+
+			
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl exec -it sample-python-app-5d7d4cd6b-4jpt8 -- /bin/bash
+root@sample-python-app-5d7d4cd6b-4jpt8:/app# cat /opt/db-port | more
+3306
+
+
+
+
+#edit configmap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-cm
+data:
+  db-port: "3307"  
+  
+  
+  
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl apply -f configmap.yml
+configmap/test-cm configured
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl exec -it sample-python-app-5d7d4cd6b-4jpt8 -- /bin/bash
+root@sample-python-app-5d7d4cd6b-4jpt8:/app# cat /opt/db-port | more
+3307
+root@sample-python-app-5d7d4cd6b-4jpt8:/app#
+
+
+
+
+
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: dotfile-secret
+data:
+  .secret-file: dmFsdWUtMg0KDQo=  #base64
+  
+  
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl  -f secret.yml
+secret/dotfile-secret created  apply
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-python-app
+  labels:
+    app: sample-python-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sample-python-app
+  template: #pod
+    metadata:
+      labels:
+        app: sample-python-app
+    spec:
+      containers:
+      - name: python-app
+        image: abhishekf5/python-sample-app-demo:v1
+        #env:
+         #- name: DB_PORT
+         #  valueFrom:
+         #   configMapKeyRef:
+           #  name: test-cm
+          #   key: db-port
+
+        volumeMounts:
+        - name: db-connection
+          mountPath : /opt
+            
+        - name: secret-volume
+          readOnly: true
+          mountPath: "/etc/secret-volume"  
+            
+        ports:
+        - containerPort: 8000
+        
+      volumes:
+      - name: db-connection
+        configMap:
+          name: test-cm
+          
+      - name: secret-volume
+        secret:
+          secretName: dotfile-secret   
+
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl apply -f deployment.yml
+deployment.apps/sample-python-app configured
+
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl exec -it sample-python-app-f4899d5fb-hpwss cat /etc/secret-volume/.secret-file
+kubectl exec [POD] [COMMAND] is DEPRECATED and will be removed in a future version. Use kubectl exec [POD] -- [COMMAND] instead.
+value-2
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl exec sample-python-app-f4899d5fb-hpwss -- cat /etc/secret-volume/.secret-file
+value-2		  
+          
+
+
+echo dmFsdWUtMg0KDQo= | base64 -d   #WSL command not a command prompt		  
+        
+
+
+
+
+
+
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+"prometheus-community" has been added to your repositories
+
+
+
+
+
+
+
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>helm install prometheus prometheus-community/prometheus -n=myisnamespace
+
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl get pods
+NAME                                                 READY   STATUS    RESTARTS       AGE
+kubeshark-front-68589fd4d8-h2bkt                     1/1     Running   3 (142m ago)   32h
+kubeshark-hub-79ddf8c7df-lwdqq                       1/1     Running   2 (142m ago)   32h
+kubeshark-worker-daemon-set-cmvnx                    2/2     Running   2 (143m ago)   32h
+prometheus-alertmanager-0                            1/1     Running   0              3m9s
+prometheus-kube-state-metrics-ff96866df-ldmvh        1/1     Running   0              3m10s
+prometheus-prometheus-node-exporter-qb55x            1/1     Running   0              3m10s
+prometheus-prometheus-pushgateway-68757884b8-7nxcr   1/1     Running   0              3m10s
+prometheus-server-5fcfcdf7-w5c55                     2/2     Running   0              3m10s
+
+
+
+
+C:\Users\Admin\Docker-Zero-to-Hero>kubectl expose service prometheus-server --type=NodePort --target-port=9090 --name=prometheus-server-ext -n=myisnamespace
+service/prometheus-server-ext exposed -n=myisnamespace 
+
+
+- Takes an **existing service** called `prometheus-server` as a template
+- Creates a **new service** based on it
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl get svc
+NAME                                  TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+kubernetes                            ClusterIP   10.96.0.1        <none>        443/TCP        2d
+kubeshark-front                       ClusterIP   10.104.106.212   <none>        80/TCP         32h
+kubeshark-hub                         ClusterIP   10.100.119.6     <none>        80/TCP         32h
+kubeshark-hub-metrics                 ClusterIP   10.108.152.19    <none>        9100/TCP       32h
+kubeshark-worker-metrics              ClusterIP   10.106.91.176    <none>        49100/TCP      32h
+prometheus-alertmanager               ClusterIP   10.104.55.138    <none>        9093/TCP       7m
+prometheus-alertmanager-headless      ClusterIP   None             <none>        9093/TCP       7m
+prometheus-kube-state-metrics         ClusterIP   10.101.5.27      <none>        8080/TCP       7m
+prometheus-prometheus-node-exporter   ClusterIP   10.103.146.34    <none>        9100/TCP       7m
+prometheus-prometheus-pushgateway     ClusterIP   10.106.124.93    <none>        9091/TCP       7m
+prometheus-server                     ClusterIP   10.107.32.152    <none>        80/TCP         7m
+prometheus-server-ext                 NodePort    10.102.171.19    <none>        80:30514/TCP   23s
+python-django-app-service             NodePort    10.100.247.236   <none>        80:30007/TCP   46h
+
+
+
+
+
+C:\Users\Admin\Docker-Zero-to-Hero>kubectl port-forward svc/prometheus-server -n myisnamespace 9090:80
+http://127.0.0.1:9090
+
+
+
+C:\Users\Admin>helm repo add grafana https://grafana.github.io/helm-charts
+"grafana" has been added to your repositories
+
+
+
+C:\Users\Admin>helm install my-grafana grafana/grafana
+
+
+
+
+#powershell
+PS C:\Users\Admin> $pwd = kubectl get secret --namespace default my-grafana -o jsonpath="{.data.admin-password}"
+PS C:\Users\Admin> [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($pwd))
+J1FMYG0K8YQ75fJrREt3n63HWzKfxjmFBzDAZh0O   #graphana password
+
+
+
+C:\Users\Admin>kubectl expose service my-grafana --type=NodePort --target-port=3000 --name=grafana-ext
+service/grafana-ext exposed
+
+C:\Users\Admin>minikube service grafana-ext --url
+http://127.0.0.1:57058
+
+
+
+
+
+
+
+
+
+
+# to extend capabilities k8s api there are 3 resources 
+1 CRD (custom resource defination)
+  - defining new type of api
+   
+    eg
+	  kind: virtual Service #in Istio
+	  
+2 CR (custom resource )
+   here 
+     kind: virtual Service
+	 will be validated against the custom resource defination.
+	 
+3 Custom controller
+   - This is the one who will create resource mentioned in CRD.
+   
+   
+   
+   
+   
+   
+   
+   
+   
+####################PORT FORWARDING ###############################
+
+ Mapping a port of a one machine to another machine in same network. 
+ 
+ machine A port 80 to machine B port 8080 
+ 
+ 
+ 
+ C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl create namespace argocd
+namespace/argocd created
+
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+
+C:\Windows\system32>kubectl get svc -n argocd
+NAME                                      TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
+argocd-applicationset-controller          ClusterIP   10.99.67.160     <none>        7000/TCP,8080/TCP            8m13s
+argocd-dex-server                         ClusterIP   10.101.92.127    <none>        5556/TCP,5557/TCP,5558/TCP   8m12s
+argocd-metrics                            ClusterIP   10.111.228.243   <none>        8082/TCP                     8m11s
+argocd-notifications-controller-metrics   ClusterIP   10.96.102.174    <none>        9001/TCP                     8m10s
+argocd-redis                              ClusterIP   10.96.124.202    <none>        6379/TCP                     8m10s
+argocd-repo-server                        ClusterIP   10.101.183.31    <none>        8081/TCP,8084/TCP            8m9s
+argocd-server                             ClusterIP   10.106.234.85    <none>        80/TCP,443/TCP               8m8s
+argocd-server-metrics                     ClusterIP   10.110.185.76    <none>        8083/TCP                     8m8s
+
+
+
+
+C:\Windows\system32>kubectl edit svc argocd-server -n argocd
+service/argocd-server edited
+
+
+C:\Windows\system32>kubectl get svc -n argocd
+NAME                                      TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
+argocd-applicationset-controller          ClusterIP   10.99.67.160     <none>        7000/TCP,8080/TCP            10m
+argocd-dex-server                         ClusterIP   10.101.92.127    <none>        5556/TCP,5557/TCP,5558/TCP   10m
+argocd-metrics                            ClusterIP   10.111.228.243   <none>        8082/TCP                     10m
+argocd-notifications-controller-metrics   ClusterIP   10.96.102.174    <none>        9001/TCP                     10m
+argocd-redis                              ClusterIP   10.96.124.202    <none>        6379/TCP                     10m
+argocd-repo-server                        ClusterIP   10.101.183.31    <none>        8081/TCP,8084/TCP            10m
+argocd-server                             NodePort    10.106.234.85    <none>        80:32300/TCP,443:32020/TCP   10m
+argocd-server-metrics                     ClusterIP   10.110.185.76    <none>        8083/TCP                     10m
+
+
+
+# try to access localhost:32300
+# you will get This site can’t be reached
+# because argocd-server is not running on your machine . Its running on VM inside inside your machine.
+
+
+C:\Windows\system32>kubectl port-forward svc/argocd-server 9000:80 -n argocd
+localhost:9000 will work now
+
+
+
+#what if container is running in cloud.
+# run below commandin cloud 
+
+C:\Users\Admin>kubectl port-forward svc/argocd-server 9000:80 --address 0.0.0.0 -n argocd
+#or
+C:\Users\Admin>kubectl port-forward svc/argocd-server :80 --address 0.0.0.0 -n argocd  # this is ramdomly pick port
+
+# in your browser access serive using ip and port of VM
+# http://<ipofvm>:9000
+
+
+
+
+
+
+
+
+
+
+##############HELM############################
+
+Helm is package is manager of k8s
+
+we can install packages in k8s using kubectl but then what is need of helm
+Helm avoid writing multiple yml files for each package
+
+
+C:\Users\Admin>kubectl config current-context
+minikube
+
+#helm up take current kubectl context and to that cluster
+
+
+what is helm chart
+chart is bundle of package . So for prometheus, grafana there is helm chart of each.
+
+
+C:\Users\Admin>helm repo add bitnami https://charts.bitnami.com/bitnami
+"bitnami" has been added to your repositories
+
+C:\Users\Admin>helm repo update
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "kubeshark" chart repository
+...Successfully got an update from the "grafana" chart repository
+...Successfully got an update from the "prometheus-community" chart repository
+...Successfully got an update from the "bitnami" chart repository
+Update Complete. ⎈Happy Helming!⎈
+
+C:\Users\Admin>helm repo update bitnami
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "bitnami" chart repository
+Update Complete. ⎈Happy Helming!⎈
+
+C:\Users\Admin>helm install nginxv1 bitnami/nginx
+
+this will add nginx pod and service
+
+
+# in organization we will have our own repo and different charts in repo
+
+
+
+
+
+#################################################################
+               SERVICE MESH
+#################################################################		
+
+
+north-south trafiic 
+  - traffic comming to cluster from external world
+
+East-west traffic
+   -  traffic accross different microservices 
+   
+
+Istio add mutual TLS capabilities between different communication
+We can do canary deployment using Istio   
+
+Istio adds Traffic management
+1 Request routing
+2 Fault injection
+3 TCP traffic shifting
+4 Mirroring
+5 Request timeouts
+6 locality load balancer
+
+How Istio works
+  For each pod it add sidecar container which act as proxy .
+  Both inbound and outboud trafiic is intercepted by sidecar.
+  
+  
+Sidecar container knows which services are being accessed,they send info to  IstioD (primary model)
+
+
+
+Admission controller:
+
+Intercepts request to ectc from api server
+
+
+kubectl apply -f pod.yaml
+        ↓
+1. Authentication (Who are you?)
+        ↓
+2. Authorization (Are you allowed?)
+        ↓
+3. Admission Controllers (Is this request valid/safe?)
+   ├─ Mutating Admission (Modify request)
+   └─ Validating Admission (Accept or reject)
+        ↓
+4. Persisted to etcd
+        ↓
+5. Object created
+
+
+2 types
+1. Mutating Admission Controllers
+
+Modify (mutate) the request before it's saved
+Run first, before validating controllers
+
+Examples:
+Add default values
+Inject sidecar containers
+Set resource limits
+
+
+2. Validating Admission Controllers
+
+Validate the request and accept/reject it
+Run after mutating controllers
+Cannot modify the request
+
+
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: myclaim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 8Gi
+  selector:
+    matchLabels:
+      release: "stable"
+    matchExpressions:
+      - {key: environment, operator: In, values: [dev]}
+	  
+	  
+	  
+	  
+	  
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app\Istio>kubectl apply -f pvc.yml
+persistentvolumeclaim/myclaim created
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app\Istio>kubectl edit pvc myclaim
+
+
+here it added
+storageClassName: standard
+  volumeMode: Filesystem
+  volumeName: pvc-70714ff5-1f8c-4c6b-a1c9-0ee632913a5e
+
+
+this is called mutation and this due to mutation controller
+
+
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: quota-demo
+spec:
+  hard:
+    cpu: "1"
+    memory: 2Gi
+	
+--
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo-pod
+spec:
+  containers:
+  - name: demo
+    image: ubuntu
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do echo hello; sleep 10;done"]
+    resources:
+      requests:
+        memory: "10Gi"
+        cpu: "500m"
+      limits:
+        memory: "10Gi"
+        cpu: "500m"
+
+		
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl apply -f resourcequote.yml
+resourcequota/quota-demo created
+
+C:\Users\Admin\Docker-Zero-to-Hero\examples\python-web-app>kubectl apply -f pod10gb.yml
+Error from server (Forbidden): error when creating "pod10gb.yml": pods "demo-pod" is forbidden: exceeded quota: quota-demo, requested: memory=10Gi, used: memory=328Mi, limited: memory=2Gi
+
+thiis is validation  and this is due to ResourceQuote controller.
+
+
+both mutation controller and ResourceQuote controller are type of admission controller and are part of api server
+
+
+
+Now Istio is not default part of controller pane.
+
+
+
+
+#installation
+
+E:\istio-1.28.1>istioctl install --set profile=demo -y
+
+E:\istio-1.28.1>kubectl create namespace  myisnamespace
+namespace/myisnamespace created
+
+
+E:\istio-1.28.1>kubectl label namespace myisnamespace istio-injection=enabled 
+namespace/default labeled
+
+E:\istio-1.28.1>kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml -n=myisnamespace
+
+E:\istio-1.28.1>kubectl apply -f samples/bookinfo/gateway-api/bookinfo-gateway.yaml -n=myisnamespace
+gateway.gateway.networking.k8s.io/bookinfo-gateway created
+httproute.gateway.networking.k8s.io/bookinfo created
+
+
+E:\istio-1.28.1>kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml -n=myisnamespace
+
+E:\istio-1.28.1>kubectl get gateway -n=myisnamespace
+NAME               CLASS   ADDRESS                                                  PROGRAMMED   AGE
+bookinfo-gateway   istio   bookinfo-gateway-istio.myisnamespace.svc.cluster.local   True         13m
+
+
+E:\istio-1.28.1>minikube tunnel
+
+
+E:\istio-1.28.1>kubectl annotate gateway bookinfo-gateway networking.istio.io/service-type=ClusterIP --namespace=myisnamespace
+gateway.gateway.networking.k8s.io/bookinfo-gateway annotated
+
+
+
+E:\istio-1.28.1>kubectl port-forward svc/bookinfo-gateway-istio 8080:80 -n=myisnamespace
+Forwarding from 127.0.0.1:8080 -> 80
+Forwarding from [::1]:8080 -> 80
+Handling connection for 8080
+Handling connection for 8080
+
+
+
+
+E:\istio-1.28.1>kubectl get svc
+NAME                     TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)            AGE
+bookinfo-gateway-istio   ClusterIP   10.111.170.82   <none>        15021/TCP,80/TCP   7d22h
+details                  ClusterIP   10.98.237.186   <none>        9080/TCP           7d22h
+kubernetes               ClusterIP   10.96.0.1       <none>        443/TCP            7d22h
+productpage              ClusterIP   10.105.84.223   <none>        9080/TCP           7d22h
+ratings                  ClusterIP   10.97.104.116   <none>        9080/TCP           7d22h
+reviews                  ClusterIP   10.105.3.41     <none>        9080/TCP           7d22h
+
+
+E:\istio-1.28.1\istio-guide\mTLS>kubectl get svc -n=myisnamespace
+NAME                     TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)            AGE
+bookinfo-gateway-istio   ClusterIP   10.107.155.27   <none>        15021/TCP,80/TCP   19m
+details                  ClusterIP   10.98.26.63     <none>        9080/TCP           21m
+productpage              ClusterIP   10.105.234.63   <none>        9080/TCP           21m
+ratings                  ClusterIP   10.96.147.72    <none>        9080/TCP           21m
+reviews                  ClusterIP   10.97.150.161   <none>        9080/TCP           21m
+
+E:\istio-1.28.1\istio-guide\mTLS>minikube ssh
+docker@gw-demo-cluster:~$ curl 10.105.234.63:9080
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+
+
+by default istio runs in permissive mode means u can access services with and without mutual TLS
+
+
+E:\istio-1.28.1>git clone https://github.com/iam-veeramalla/istio-guide
+
+
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: mtls-mode
+  namespace: default
+spec:
+  mtls:
+    mode: STRICT # changed from permissive to strict
+	
+	
+	
+E:\istio-1.28.1\istio-guide\mTLS>kubectl apply -f tls-mode.yaml -n=myisnamespace
+peerauthentication.security.istio.io/mtls-mode created
+
+
+
+docker@gw-demo-cluster:~$ curl 10.105.234.63:9080
+curl: (56) Recv failure: Connection reset by peer
+
+
+#virtual service
+
+# creating virtual service for each service\
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: productpage
+  namespace: myisnamespace
+spec:
+  hosts:
+  - productpage
+  http:
+  - route:
+    - destination:
+        host: productpage
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
+  namespace: myisnamespace
+spec:
+  hosts:
+  - reviews
+  http:
+  - route:
+    - destination:
+        host: reviews
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+  namespace: myisnamespace
+spec:
+  hosts:
+  - ratings
+  http:
+  - route:
+    - destination:
+        host: ratings
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: details
+  namespace: myisnamespace
+spec:
+  hosts:
+  - details
+  http:
+  - route:
+    - destination:
+        host: details
+        subset: v1
+---
+
+
+E:\istio-1.28.1\istio-guide\traffic-management\traffic-shifting>kubectl apply -f 01-old-version.yaml
+virtualservice.networking.istio.io/productpage created
+virtualservice.networking.istio.io/reviews created
+virtualservice.networking.istio.io/ratings created
+virtualservice.networking.istio.io/details created
+
+
+now if we try to access page then
+
+then product details and and product reviews page will give errors
+
+Error fetching product details
+Sorry, product details are currently unavailable for this book.
+
+Error fetching product reviews
+Sorry, product reviews are currently unavailable for this book.
+
+
+
+sample
+
+apiVersion: networking.istio.io/v1
+kind: DestinationRule
+metadata:
+  name: productpage
+spec:
+  host: productpage
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+---
+apiVersion: networking.istio.io/v1
+kind: DestinationRule
+metadata:
+  name: reviews
+spec:
+  host: reviews
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+  - name: v3
+    labels:
+      version: v3
+---
+
+E:\istio-1.28.1\samples\bookinfo\networking>kubectl apply -f destination-rule-all.yaml -n=myisnamespace
+destinationrule.networking.istio.io/productpage created
+destinationrule.networking.istio.io/reviews created
+destinationrule.networking.istio.io/ratings created
+destinationrule.networking.istio.io/details created
+
+
+try again now everything will work fine.
+
+but
+in virtualService of reviews we have mentioned
+destination:
+        host: reviews
+        subset: v1
+
+and in destinationRule		
+subset:
+- lables:
+   version : v1
+  name : v1
+  
+ So trafiic will always go to review v1 
+ 
+ 
+ lets modify virtual service
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
+spec:
+  hosts:
+    - reviews
+  http:
+  - route:
+    - destination:
+        host: reviews
+        subset: v1
+      weight: 50
+    - destination:
+        host: reviews
+        subset: v3
+      weight: 50
+	  
+E:\istio-1.28.1\istio-guide\traffic-management\traffic-shifting>kubectl apply -f 02-traffic-shifting.yaml -n=myisnamespace
+virtualservice.networking.istio.io/reviews configured
+
+now 50 % trafiic will go to v1 and 50% will route to v3
+	  
+-------------------------------------------------------------
+what is service account?
+
+- It is identity used by pods
+
+ServiceAccount is an identity used by pods / applications 
+running inside the cluster to authenticate and interact with the Kubernetes API or other cluster resources.
+
+
+There are two kinds of identities in Kubernetes:
+
+Identity type	Used by
+User Account	Humans (kubectl, admins, developers)
+Service Account	Applications / Pods
+
+What Service Account is used for
+✅ Access Kubernetes API
+List pods
+Read config maps
+Watch resources
+
+✅ RBAC authorization
+What a pod can or cannot do
+
+✅ Cloud workload identity
+AKS → Azure Key Vault
+EKS → AWS IAM
+GKE → GCP IAM
+
+
+
+
+
+Real-world example
+
+Imagine:
+
+Your app runs in a pod
+
+It needs to:
+
+Read ConfigMaps
+
+List Pods
+
+Watch Secrets (or access cloud services)
+
+➡️ Kubernetes needs to know:
+
+“Is this pod allowed to do this?”
+
+That identity = ServiceAccount
+
+
+You create a ServiceAccount
+
+You give it permissions using RBAC (Role / RoleBinding)
+
+Pod uses this ServiceAccount
+
+Kubernetes automatically:
+
+Creates a token
+Mounts it inside the pod
+
+App uses the token to call Kubernetes API
+
+If you don’t specify a ServiceAccount in a pod:
+➡️ default ServiceAccount is used
+
+
+
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: my-app-sa
+  namespace: default
+
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-app
+spec:
+  serviceAccountName: my-app-sa
+  containers:
+  - name: app
+    image: my-app:1.0
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role #(For cluster-wide permissions, you’d use ClusterRole)
+metadata:
+  name: pod-reader
+rules:
+- apiGroups: [""] # core API group includes pods, services, configmaps, secrects, namespaces
+  resources: ["pods"] #The permission applies only to Pods
+  verbs: ["get", "list"]
+
+---
+
+important: Role alone does nothing 🚨
+
+This Role is inactive until you bind it.
+
+You must create a RoleBinding.
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: pod-reader-binding
+subjects:
+- kind: ServiceAccount
+  name: my-app-sa
+roleRef:
+  kind: Role
+  name: pod-reader
+  apiGroup: rbac.authorization.k8s.io
+---------------------------------------------------------------------
+
+| ServiceAccount          | Secret                   |
+| ----------------------- | ------------------------ |
+| Identity                | Stores sensitive data    |
+| Used for authentication | Used for passwords, keys |
+| Works with RBAC         | No permissions by itself |
+
+
+
+----------------------------------------------------
+
+How yo use managed Identity in K8s?
+
+az aks create \
+  --resource-group rg \
+  --name aks-cluster \
+  --enable-managed-identity \
+  --assign-identity /subscriptions/.../userAssignedIdentities/aks-identity
+
+
+
+
+Supported identity type
+
+✅ User-Assigned Managed Identity only
+
+How it works
+
+Pod uses Kubernetes Service Account
+
+Federated with Azure AD
+
+Pod gets Azure token without secrets	 
+
+
+
+| Scenario                  | System Assigned | User Assigned |
+| ------------------------- | --------------- | ------------- |
+| AKS control plane         | ✅ Yes           | ✅ Yes         |
+| Pod / workload identity   | ❌ No            | ✅ Yes         |
+| Survives AKS deletion     | ❌ No            | ✅ Yes         |
+| Recommended for apps      | ❌ No            | ✅ Yes         |
+| Workload Identity support | ❌               | ✅             |
+ 
+ 
+ AKS supports both System-Assigned and User-Assigned Managed Identities. System-assigned identities 
+ are mainly used by the AKS control plane to manage Azure resources, while user-assigned identities 
+ are required for workload identity so that pods can securely access Azure services like Key Vault without secrets.
+ 
+ 
+ 
+----------------------------------------
+Q How to use DefaultAzure credential in Aks as there is no identify section in aks?
+
+In AKS, it automatically picks Workload Identity if configured.
+
+e2e steps
+
+Step 1️⃣ Enable Workload Identity on AKS
+az aks update \
+  -g my-rg \
+  -n my-aks \
+  --enable-oidc-issuer \
+  --enable-workload-identity
+  
+ Step 2️⃣ Create User-Assigned Managed Identity 
+ 
+ az identity create \
+  -g my-rg \
+  -n my-api-identity
+
+Step 3️⃣ Grant Azure permissions (example: Key Vault)
+
+az keyvault set-policy \
+  -n my-kv \
+  --secret-permissions get list \
+  --spn <CLIENT_ID>
+
+
+Step 4️⃣ Create Kubernetes Service Account
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: my-api-sa
+  namespace: default
+  annotations: # note we have used annotations for  managed identity.
+    azure.workload.identity/client-id: "<CLIENT_ID>"
+	
+	
+Step 5️⃣ Create Federated Identity Credential
+	
+az identity federated-credential create \
+  --name my-api-federation \
+  --identity-name my-api-identity \
+  --resource-group my-rg \
+  --issuer https://<AKS_OIDC_ISSUER> \
+  --subject system:serviceaccount:default:my-api-sa
+
+
+Step 6️⃣ Use Service Account in Deployment
+
+spec:
+  serviceAccountName: my-api-sa
+  containers:
+  - name: api
+    image: myapi:latest
+
+Step 7️⃣ Use DefaultAzureCredential in .NET 8
+
+
+flow
+Pod → Service Account → OIDC Token
+    → Azure AD → User Assigned Managed Identity
+    → Access Azure Resource
+
+-------------------------------------------------------------
+
+Do we need k8s secrets if azure is already providing key vault?
+
+Yes, Kubernetes secrets are still needed, Kubernetes secrets are only for Kubernetes-level data.
+For application secrets like passwords or keys, we should use Azure Key Vault with Managed Identity, not Kubernetes Secrets.
+
+Azure Key Vault and Kubernetes Secrets solve different problems.
+Kubernetes Secrets are used to store Kubernetes-specific configuration such as TLS certs for Ingress, 
+image pull secrets, or small non-sensitive configs.
+For application secrets like database passwords or API keys, we should use Azure Key Vault and access it securely 
+from AKS using Workload Identity.
+In this setup, Kubernetes Secrets do not store sensitive values; they only store references or configuration.
+
+
+| Use case              | Kubernetes Secret | Azure Key Vault |
+| --------------------- | ----------------- | --------------- |
+| DB password / API key | ❌ Avoid           | ✅ Yes           |
+| TLS cert for Ingress  | ✅ Yes             | ❌ Not ideal     |
+| Image pull secret     | ✅ Yes             | ❌               |
+| App configuration     | ⚠️ Sometimes      | ✅               |
+| Rotation / auditing   | ❌ Weak            | ✅ Strong        |
+| Encryption & RBAC     | ⚠️ Basic (base64)  | ✅ Enterprise    |
+
+-----------------------------------------------------------------------
+
+Q: Can we completely avoid Kubernetes Secrets?
+✔ Practically no, because Kubernetes itself needs them.
+✔ But application secrets should not be stored there.
+
+
+
+-------------------------------------------------------
+Give me example of yml that stores image pull credential 
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-registry-secret
+  namespace: default
+type: kubernetes.io/dockerconfigjson
+data:
+  .dockerconfigjson: ewogICJhdXRocyI6IHsKICAgICJteXJlZ2lzdHJ5LmF6dXJlY3IuaW8iOiB7CiAgICAgICJ1c2VybmFtZSI6ICJteVVzZXIiLAogICAgICAicGFzc3dvcmQiOiAibXlQYXNzd29yZCIsCiAgICAgICJhdXRoIjogImJYbFVjMlZ5T2pNeU1UST0iCiAgICB9CiAgfQp9
+-----------------------------------
+
+kubectl create secret docker-registry my-registry-secret \
+  --docker-server=myregistry.azurecr.io \
+  --docker-username=myUser \
+  --docker-password=myPassword \
+  --docker-email=my@email.com
+----------------------------------------------------------
+
+Use imagePullSecrets in Pod / Deployment
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-api
+spec:
+  replicas: 1
+  template:
+    spec:
+      imagePullSecrets:
+      - name: my-registry-secret
+      containers:
+      - name: api
+        image: myregistry.azurecr.io/myapi:latest
+----------------------------------------------------------
+ServiceAccount way (BEST PRACTICE)
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: api-sa
+imagePullSecrets:
+- name: my-registry-secret
+
+
+then use service account in deployment
+
+spec:
+  serviceAccountName: api-sa
+
+
+🔹 AKS + ACR best practice
+
+If ACR and AKS are in same subscription:
+
+az aks update -n myaks -g myrg --attach-acr myacr
+No image pull secret needed
+
+
+
+
+
+--------------------------------------------------
+What is request and resources in deployment yml ?
+Requests and limits define how much CPU and memory a container needs and is allowed to use.
+
+resources:
+  requests:
+    cpu: "250m"
+    memory: "256Mi"
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+
+
+----------------------------------------------------
+
+Lets say I have 3 nodes and i am creating a deployment with 3 replication. 
+How to ensure that more than 1 replica/pos is not assigned to a node?
+
+To ensure no more than one replica of a Deployment runs on the same node, you must use Pod Anti-Affinity.
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-api
+  template:
+    metadata:
+      labels:
+        app: my-api
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - my-api
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: api
+        image: myapi:latest
+
+
+Soft rule alternative (Preferred in some cases)
+
+preferredDuringSchedulingIgnoredDuringExecution:
+- weight: 100
+  podAffinityTerm:
+    labelSelector:
+      matchLabels:
+        app: my-api
+    topologyKey: kubernetes.io/hostname
+
+---------------------------------------------
+
+
+What is mean by preferredDuringSchedulingIgnoreduringexecution?
+preferred
+
+➡️ Best-effort, not mandatory
+
+DuringScheduling
+
+➡️ Applied when the pod is being scheduled
+
+IgnoredDuringExecution
+
+➡️ Once the pod is running, Kubernetes will not evict or move it even if the rule is violated later
+
+
+
+Example scenario (realistic)
+Cluster state (initial)
+
+3 nodes: node-1, node-2, node-3
+
+Deployment: my-api
+
+Replicas: 2
+
+Using preferred pod anti-affinity
+
+Step 1️⃣ Initial scheduling (rule respected)
+
+Pod-1 → node-1
+
+Pod-2 → node-2
+
+✅ Rule is followed: pods are on different nodes
+
+
+Step 2️⃣ Node failure happens
+
+💥 node-2 crashes
+
+Pod-2 is lost
+
+Kubernetes creates a new pod (Pod-3)
+
+Now only:
+
+node-1
+
+node-3
+
+step 3️⃣ Scheduler tries to reschedule Pod-3
+
+Scheduler logic:
+
+Prefer a node without another my-api pod
+
+node-3 → preferred
+
+node-1 → less preferred
+
+📌 If node-3 has resources → Pod-3 goes to node-3
+📌 If node-3 is full → Pod-3 goes to node-1
+
+Let’s assume node-3 is full.
+
+➡️ Pod-3 is scheduled on node-1
+
+Now:
+
+node-1: Pod-1, Pod-3
+
+Rule is violated
+
+
+
+Step 4️⃣ Node-3 becomes free later
+
+Later:
+
+Resources are freed on node-3
+
+❓ Will Kubernetes move Pod-3 to node-3?
+
+❌ NO
+
+Why?
+
+Because:
+The rule was IgnoredDuringExecution
+
+Scheduler only applies it at scheduling time
+
+Kubernetes does not reshuffle running pods
+
+
+
+Two different situations (this is the key)
+✅ Case 1: Node n2 temporarily went down and came back up
+
+(example: reboot, network blip, kubelet restart)
+
+What happens:
+
+Pod p2 was running on n2
+
+Node becomes NotReady
+
+Node comes back Ready
+
+Pod is still there
+
+➡️ Pod continues running on n2
+
+Why?
+
+Pod never died
+
+Container state still exists
+
+Scheduler is not involved
+
+Affinity rules are irrelevant now
+
+📌 Kubernetes does not re-evaluate placement for running pods.
+
+
+
+
+
+❌ Case 2: Node n2 crashed permanently
+
+(example: VM deleted, disk lost)
+
+What happens:
+
+Pod p2 is lost
+
+Deployment creates a new pod
+
+Scheduler runs again
+
+Anti-affinity rules are checked again
+
+➡️ Pod may move to another node (depending on rules)
+
+
+
+If interviewer pushes further
+
+Q: How do we force rebalance?
+
+✔ Manual pod deletion
+✔ Cluster autoscaler
+✔ Descheduler (optional add-on)
+
+---------------------------------------------------
+
+Q In my Kubernetes architecture, I have multiple services. Can I use single ingress to expose them?
+
+✅ Yes — you can expose multiple services using a single Ingress in Kubernetes.
+This is actually a very common and recommended pattern.
+
+
+A single Kubernetes Ingress can route traffic to different services using:
+
+Path-based routing
+
+Host-based routing
+
+Or a combination of both
+
+--------------------------------------------
+
+Q Why NodePort is almost never used in prod?
+
+| Feature          | NodePort | Ingress / Gateway |
+| ---------------- | -------- | ----------------- |
+| Security         | ❌        | ✅                 |
+| TLS              | ❌        | ✅                 |
+| Cost             | ❌        | ✅                 |
+| Routing          | ❌        | ✅                 |
+| Observability    | ❌        | ✅                 |
+| Enterprise ready | ❌        | ✅                 |
+
+
+
+----------------------------------------
+What is differnce between gateways and ingress?
+
+| Aspect                   | Ingress                  | Gateway                            |
+| ------------------------ | ------------------------ | ---------------------------------- |
+| Status                   | Legacy (still supported) | Modern (recommended going forward) |
+| Role separation          | ❌ Limited                | ✅ Clear (infra vs app teams)       |
+| Multi-protocol (TCP/UDP) | ❌ Mostly HTTP            | ✅ Yes                              |
+| Extensibility            | ❌ Controller-specific    | ✅ Standardized                     |
+| Multi-tenant friendly    | ❌                        | ✅                                  |
+
+
+GatewayAPI
+| Resource     | Responsibility                      |
+| ------------ | ----------------------------------- |
+| GatewayClass | Controller implementation           |
+| Gateway      | Infrastructure (LB, listeners, TLS) |
+| HTTPRoute    | Application routing rules           |
+
+
+Client → Load Balancer → Gateway → Route → Service → Pod
+
+
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway # which gateway to use , eg ngnix
+metadata:
+  name: app-gateway
+spec:
+  gatewayClassName: nginx
+  listeners:
+  - name: http
+    protocol: HTTP
+    port: 80
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: app-route
+spec:
+  parentRefs:
+  - name: app-gateway
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api
+    backendRefs:
+    - name: my-api
+      port: 80
+
+-------------------------------------------------------
+
+Can Ingress and Gateway coexist?
+
+✔ Yes — in the same cluster
+❌ No — for the same traffic path
+
+
+
+Features Gateway Has That Ingress Does NOT
+1 Clear Separation of Responsibilities (Huge One)
+Ingress ❌
+
+App team + platform team both touch the same object
+
+No clear ownership
+
+Gateway API ✅
+
+Separate CRDs:
+
+GatewayClass → Platform team (what controller)
+
+Gateway → Infra team (LB, TLS, ports)
+
+HTTPRoute / TCPRoute / GRPCRoute → App team (routing)
+
+✅ Multi-team safe
+✅ Enterprise-ready
+
+
+
+2 Multiple Protocol Support (Ingress = HTTP only)
+Ingress ❌
+
+HTTP / HTTPS only
+
+Gateway API ✅
+
+Supports:
+
+HTTP
+
+HTTPS
+
+TCP
+
+UDP
+
+gRPC
+
+
+kind: GRPCRoute
+kind: TCPRoute
+kind: UDPRoute
+Ingress cannot do this natively
+
+
+3  Advanced Traffic Routing (Fine-grained control)
+Gateway API gives:
+
+Header-based routing
+
+Query parameter routing
+
+Method-based routing
+
+Weighted traffic splitting (canary)
+
+
+4 Built-in Traffic Splitting (Canary / Blue-Green)
+Ingress ❌
+
+Needs annotations
+
+Controller-specific
+
+Hard to standardize
+
+Gateway API ✅
+
+Native support:
+
+backendRefs:
+- name: service-v1
+  weight: 80
+- name: service-v2
+  weight: 20
+
+
+5 Cross-Namespace Routing (Secure & Explicit)
+Ingress ❌
+
+Unsafe or not allowed
+
+Hacky solutions
+
+Gateway API ✅
+
+Uses ReferenceGrant
+
+kind: ReferenceGrant
+
+
+6  No Annotations Dependency (Standard Config)
+Ingress ❌
+
+Heavy use of annotations
+
+Controller-specific
+
+Not portable
+
+Gateway API ✅
+
+Structured fields
+
+Standard schema
+
+Same YAML works everywhere
+
+
+
+--------------------------------------------
+
+sample production ingress yml
+
+kind: ingress
+metadata:
+  name: kibana
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    kubernetes.io/ingress.allow-http: "false"
+spec:
+  rules:
+  - host: ingress_dns_name
+    http:
+      paths:
+      - path: /kibana
+        pathType: Prefix
+backend:
+  service:
+    name: kibana
+    port:
+      number: 5601
+tls:
+- secretName: starhubdigitalcomhubca
+
+
+
+-----------------------------------------------------------
+sample docker compose yml
+
+version: '3.4'
+
+services:
+
+  mycompany.digital.notifications-engine:
+    image: ${DOCKER_REGISTRY}/mycompanydigitalnotificationsengine
+    build:
+      context: .
+      dockerfile: mycompany.Digital.Notifications.Engine/Dockerfile
+
+  mycompany.digital.events.api:
+    image: ${DOCKER_REGISTRY}/mycompanydigitaleventsapi
+    build:
+      context: .
+      dockerfile: mycompany.Digital.Events.Api/Dockerfile
+
+  mycompany.digital.notifications.api:
+    image: ${DOCKER_REGISTRY}/mycompanydigitalnotificationsapi
+    build:
+      context: .
+      dockerfile: mycompany.Digital.Notifications.Api/Dockerfile
+
+
+
+
+${DOCKER_REGISTRY} is an environment variable
+
+
+build:
+  context: .
+  dockerfile: mycompany.Digital.Notifications.Engine/Dockerfile
+This tells Docker:
+
+context: .
+
+Root directory is sent to Docker daemon
+
+dockerfile
+
+Use a specific Dockerfile
+
+Not the default Dockerfile
+
+
+
+docker-compose up
+   ↓
+Reads docker-compose.yml
+   ↓
+Builds images (using Dockerfiles)
+   ↓
+Creates containers
+   ↓
+Creates default network
+   ↓
+Runs containers together
+
+
+run in command promt
+set DOCKER_REGISTRY=myacr.azurecr.io
+docker-compose up --build
+
+
+| Command                        | Behavior                  |
+| ------------------------------ | ------------------------- |
+| `docker compose up`            | Build if needed, then run |
+| `docker compose build`         | Always build              |
+| `docker compose pull`          | Only pull                 |
+| `docker compose up --no-build` | Run existing image only   |
+
+
+
+C:\Users\Admin>kubectl get pods
+NAME                                     READY   STATUS    RESTARTS      AGE
+bookinfo-gateway-istio-5876fff84-np9vn   1/1     Running   3 (36m ago)   5d21h
+details-v1-77d6bd5675-2ngrb              2/2     Running   1 (40m ago)   5d22h
+productpage-v1-bb87ff47b-sc5nv           2/2     Running   1 (40m ago)   5d22h
+ratings-v1-8589f64b4c-zlrp5              2/2     Running   1 (40m ago)   5d22h
+reviews-v1-8cf7b9cc5-jfqh2               2/2     Running   1 (40m ago)   5d22h
+reviews-v2-67d565655f-n7b7f              2/2     Running   1 (40m ago)   5d22h
+reviews-v3-d587fc9d7-skpbf               2/2     Running   1 (40m ago)   5d22h
+
+C:\Users\Admin>kubectl get pods -o wide
+NAME                                     READY   STATUS    RESTARTS      AGE     IP            NODE       NOMINATED NODE   READINESS GATES
+bookinfo-gateway-istio-5876fff84-np9vn   1/1     Running   3 (36m ago)   5d21h   10.244.0.23   minikube   <none>           <none>
+details-v1-77d6bd5675-2ngrb              2/2     Running   1 (40m ago)   5d22h   10.244.0.25   minikube   <none>           <none>
+productpage-v1-bb87ff47b-sc5nv           2/2     Running   1 (40m ago)   5d22h   10.244.0.30   minikube   <none>           <none>
+ratings-v1-8589f64b4c-zlrp5              2/2     Running   1 (40m ago)   5d22h   10.244.0.29   minikube   <none>           <none>
+reviews-v1-8cf7b9cc5-jfqh2               2/2     Running   1 (40m ago)   5d22h   10.244.0.26   minikube   <none>           <none>
+reviews-v2-67d565655f-n7b7f              2/2     Running   1 (40m ago)   5d22h   10.244.0.28   minikube   <none>           <none>
+reviews-v3-d587fc9d7-skpbf               2/2     Running   1 (40m ago)   5d22h   10.244.0.27   minikube   <none>           <none>
+
+C:\Users\Admin>kubectl describe pod bookinfo-gateway-istio-5876fff84-np9vn
+Name:             bookinfo-gateway-istio-5876fff84-np9vn
+Namespace:        default
+Priority:         0
+Service Account:  bookinfo-gateway-istio
+Node:             minikube/192.168.49.2
+Start Time:       Thu, 11 Dec 2025 04:08:37 +0530
+Labels:           gateway.istio.io/managed=istio.io-gateway-controller
+                  gateway.networking.k8s.io/gateway-class-name=istio
+                  gateway.networking.k8s.io/gateway-name=bookinfo-gateway
+                  pod-template-hash=5876fff84
+                  service.istio.io/canonical-name=bookinfo-gateway-istio
+                  service.istio.io/canonical-revision=latest
+                  sidecar.istio.io/inject=false
+Annotations:      istio.io/rev: default
+                  networking.istio.io/service-type: ClusterIP
+                  prometheus.io/path: /stats/prometheus
+                  prometheus.io/port: 15020
+                  prometheus.io/scrape: true
+Status:           Running
+IP:               10.244.0.23
+IPs:
+  IP:           10.244.0.23
+Controlled By:  ReplicaSet/bookinfo-gateway-istio-5876fff84
+Containers:
+  istio-proxy:
+    Container ID:  docker://5b0bfee52c91716494c0531541101767f6f739f0f90862b03df75767f9d652c6
+    Image:         docker.io/istio/proxyv2:1.28.1
+    Image ID:      docker-pullable://istio/proxyv2@sha256:c68e79b821ba47c63af844422114af6d5cc01cc1fd8f1b0184c42be330afc1d2
+    Ports:         15020/TCP, 15021/TCP, 15090/TCP
+    Host Ports:    0/TCP, 0/TCP, 0/TCP
+    Args:
+      proxy
+      router
+      --domain
+      $(POD_NAMESPACE).svc.cluster.local
+      --proxyLogLevel
+      warning
+      --proxyComponentLogLevel
+      misc:error
+      --log_output_level
+      default:info
+    State:          Running
+      Started:      Wed, 17 Dec 2025 01:20:06 +0530
+    Last State:     Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Wed, 17 Dec 2025 01:19:15 +0530
+      Finished:     Wed, 17 Dec 2025 01:20:02 +0530
+    Ready:          True
+    Restart Count:  3
+    Limits:
+      cpu:     2
+      memory:  1Gi
+    Requests:
+      cpu:      10m
+      memory:   40Mi
+    Readiness:  http-get http://:15021/healthz/ready delay=0s timeout=1s period=15s #success=1 #failure=4
+    Startup:    http-get http://:15021/healthz/ready delay=1s timeout=1s period=1s #success=1 #failure=30
+    Environment:
+      PILOT_CERT_PROVIDER:           istiod
+      CA_ADDR:                       istiod.istio-system.svc:15012
+      POD_NAME:                      bookinfo-gateway-istio-5876fff84-np9vn (v1:metadata.name)
+      POD_NAMESPACE:                 default (v1:metadata.namespace)
+      INSTANCE_IP:                    (v1:status.podIP)
+      SERVICE_ACCOUNT:                (v1:spec.serviceAccountName)
+      HOST_IP:                        (v1:status.hostIP)
+      ISTIO_CPU_LIMIT:               2 (limits.cpu)
+      PROXY_CONFIG:                  {}
+
+      ISTIO_META_POD_PORTS:          []
+      ISTIO_META_APP_CONTAINERS:
+      GOMEMLIMIT:                    1073741824 (limits.memory)
+      GOMAXPROCS:                    2 (limits.cpu)
+      ISTIO_META_CLUSTER_ID:         Kubernetes
+      ISTIO_META_NODE_NAME:           (v1:spec.nodeName)
+      ISTIO_META_INTERCEPTION_MODE:  REDIRECT
+      ISTIO_META_WORKLOAD_NAME:      bookinfo-gateway-istio
+      ISTIO_META_OWNER:              kubernetes://apis/apps/v1/namespaces/default/deployments/bookinfo-gateway-istio
+      ISTIO_META_MESH_ID:            cluster.local
+      TRUST_DOMAIN:                  cluster.local
+    Mounts:
+      /etc/istio/pod from istio-podinfo (rw)
+      /etc/istio/proxy from istio-envoy (rw)
+      /var/lib/istio/data from istio-data (rw)
+      /var/run/secrets/credential-uds from credential-socket (rw)
+      /var/run/secrets/istio from istiod-ca-cert (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-tr569 (ro)
+      /var/run/secrets/tokens from istio-token (rw)
+      /var/run/secrets/workload-spiffe-credentials from workload-certs (rw)
+      /var/run/secrets/workload-spiffe-uds from workload-socket (rw)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True
+  Initialized                 True
+  Ready                       True
+  ContainersReady             True
+  PodScheduled                True
+Volumes:
+  workload-socket:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:
+    SizeLimit:  <unset>
+  credential-socket:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:
+    SizeLimit:  <unset>
+  workload-certs:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:
+    SizeLimit:  <unset>
+  istio-envoy:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     Memory
+    SizeLimit:  <unset>
+  istio-data:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:
+    SizeLimit:  <unset>
+  istio-podinfo:
+    Type:  DownwardAPI (a volume populated by information about the pod)
+    Items:
+      metadata.labels -> labels
+      metadata.annotations -> annotations
+  istio-token:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  43200
+  istiod-ca-cert:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      istio-ca-root-cert
+    Optional:  false
+  kube-api-access-tr569:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason          Age                 From               Message
+  ----     ------          ----                ----               -------
+  Normal   Scheduled       5d21h               default-scheduler  Successfully assigned default/bookinfo-gateway-istio-5876fff84-np9vn to minikube
+  Normal   Pulled          5d21h               kubelet            Container image "docker.io/istio/proxyv2:1.28.1" already present on machine
+  Normal   Created         5d21h               kubelet            Created container: istio-proxy
+  Normal   Started         5d21h               kubelet            Started container istio-proxy
+  Normal   SandboxChanged  40m                 kubelet            Pod sandbox changed, it will be killed and re-created.
+  Normal   Pulled          40m                 kubelet            Container image "docker.io/istio/proxyv2:1.28.1" already present on machine
+  Normal   Created         40m                 kubelet            Created container: istio-proxy
+  Normal   Started         40m                 kubelet            Started container istio-proxy
+  Warning  Unhealthy       39m (x18 over 40m)  kubelet            Startup probe failed: Get "http://10.244.0.16:15021/healthz/ready": dial tcp 10.244.0.16:15021: connect: connection refused
+  Normal   SandboxChanged  37m                 kubelet            Pod sandbox changed, it will be killed and re-created.
+  Warning  Unhealthy       37m (x25 over 37m)  kubelet            Startup probe failed: Get "http://10.244.0.23:15021/healthz/ready": dial tcp 10.244.0.23:15021: connect: connection refused
+  Normal   Killing         37m                 kubelet            Container istio-proxy failed startup probe, will be restarted
+  Normal   Pulled          36m (x2 over 37m)   kubelet            Container image "docker.io/istio/proxyv2:1.28.1" already present on machine
+  Normal   Created         36m (x2 over 37m)   kubelet            Created container: istio-proxy
+  Normal   Started         36m (x2 over 37m)   kubelet            Started container istio-proxy
+  
+  
+  
+  
+  
+  
+  
+  
+C:\Users\Admin>kubectl logs bookinfo-gateway-istio-5876fff84-np9vn
+2025-12-16T19:50:10.359810Z     info    FLAG: --concurrency="0"
+2025-12-16T19:50:10.359898Z     info    FLAG: --domain="default.svc.cluster.local"
+2025-12-16T19:50:10.359914Z     info    FLAG: --help="false"
+2025-12-16T19:50:10.359924Z     info    FLAG: --log_as_json="false"
+2025-12-16T19:50:10.359935Z     info    FLAG: --log_caller=""
+2025-12-16T19:50:10.359943Z     info    FLAG: --log_output_level="default:info"
+2025-12-16T19:50:10.359954Z     info    FLAG: --log_stacktrace_level="default:none"
+2025-12-16T19:50:10.359995Z     info    FLAG: --log_target="[stdout]"
+2025-12-16T19:50:10.360008Z     info    FLAG: --meshConfig="./etc/istio/config/mesh"
+2025-12-16T19:50:10.360018Z     info    FLAG: --outlierLogPath=""
+2025-12-16T19:50:10.360028Z     info    FLAG: --profiling="true"
+2025-12-16T19:50:10.360038Z     info    FLAG: --proxyComponentLogLevel="misc:error"
+2025-12-16T19:50:10.360049Z     info    FLAG: --proxyLogLevel="warning"
+2025-12-16T19:50:10.360057Z     info    FLAG: --serviceCluster="istio-proxy"
+2025-12-16T19:50:10.360069Z     info    FLAG: --stsPort="0"
+2025-12-16T19:50:10.360079Z     info    FLAG: --templateFile=""
+2025-12-16T19:50:10.360088Z     info    FLAG: --tokenManagerPlugin=""
+2025-12-16T19:50:10.360103Z     info    FLAG: --vklog="0"
+2025-12-16T19:50:10.360114Z     info    Version 1.28.1-6268e25f089a4b0f726082053cf630490c235cdc-Clean
+2025-12-16T19:50:10.360659Z     info    Proxy role      ips=[10.244.0.23] type=router id=bookinfo-gateway-istio-5876fff84-np9vn.default domain=default.svc.cluster.local
+2025-12-16T19:50:10.360901Z     info    Apply proxy config from env {}
+
+2025-12-16T19:50:10.640337Z     info    cpu limit detected as 2, setting concurrency
+2025-12-16T19:50:10.642935Z     info    Effective config: binaryPath: /usr/local/bin/envoy
+concurrency: 2
+configPath: ./etc/istio/proxy
+controlPlaneAuthPolicy: MUTUAL_TLS
+discoveryAddress: istiod.istio-system.svc:15012
+drainDuration: 45s
+proxyAdminPort: 15000
+serviceCluster: istio-proxy
+statNameLength: 189
+statusPort: 15020
+terminationDrainDuration: 5s
+
+2025-12-16T19:50:10.643456Z     info    JWT policy is third-party-jwt
+2025-12-16T19:50:10.644511Z     info    using credential fetcher of JWT type in cluster.local trust domain
+2025-12-16T19:50:10.682607Z     info    Starting default Istio SDS Server
+2025-12-16T19:50:10.682670Z     info    CA Endpoint istiod.istio-system.svc:15012, provider Citadel
+2025-12-16T19:50:10.682752Z     info    Using CA istiod.istio-system.svc:15012 cert with certs: var/run/secrets/istio/root-cert.pem
+2025-12-16T19:50:10.721020Z     info    Opening status port 15020
+2025-12-16T19:50:10.833082Z     info    xdsproxy        Initializing with upstream address "istiod.istio-system.svc:15012" and cluster "Kubernetes"
+2025-12-16T19:50:10.937896Z     info    sds     Starting SDS grpc server
+2025-12-16T19:50:10.939020Z     info    sds     Starting SDS server for workload certificates, will listen on "var/run/secrets/workload-spiffe-uds/socket"
+2025-12-16T19:50:11.327008Z     info    Pilot SAN: [istiod.istio-system.svc]
+2025-12-16T19:50:11.566416Z     info    Starting proxy agent
+2025-12-16T19:50:11.566593Z     info    Envoy command: [-c etc/istio/proxy/envoy-rev.json --drain-time-s 45 --drain-strategy immediate --local-address-ip-version v4 --file-flush-interval-msec 1000 --disable-hot-restart --allow-unknown-static-fields -l warning --component-log-level misc:error --skip-deprecated-logs --concurrency 2]
+2025-12-16T19:50:16.155984Z     info    cache   generated new workload certificate      resourceName=default latency=5.398895931s ttl=23h59m58.844023602s
+2025-12-16T19:50:16.156072Z     info    cache   Root cert has changed, start rotating root cert
+2025-12-16T19:50:16.158524Z     info    cache   returned workload trust anchor from cache       ttl=23h59m58.841495448s
+2025-12-16T19:50:16.664168Z     info    xdsproxy        connected to delta upstream XDS server: istiod.istio-system.svc:15012   id=1
+2025-12-16T19:50:17.528612Z     info    ads     ADS: new connection for node:1
+2025-12-16T19:50:17.533650Z     info    cache   returned workload trust anchor from cache       ttl=23h59m57.46636684s
+2025-12-16T19:50:17.548865Z     info    ads     ADS: new connection for node:2
+2025-12-16T19:50:17.549164Z     info    cache   returned workload certificate from cache        ttl=23h59m57.450843993s
+2025-12-16T19:50:19.120728Z     info    Readiness succeeded in 9.052832173s
+2025-12-16T19:50:19.242263Z     info    Envoy proxy is ready
+2025-12-16T20:20:53.568676Z     info    xdsproxy        connected to delta upstream XDS server: istiod.istio-system.svc:15012   id=2 
+
+
+Fetches the output written by the application inside the container to stdout and stderr.
+
+------------------------------------------------------------------------------
+
+Q How to secure pod to pod or service to service communication in kubernetes?
+
+1️⃣ Network Policies (L3/L4 security – MUST HAVE)
+
+What it does
+
+Controls which pods can talk to which pods/services
+
+Works at IP + port level
+
+Acts like a firewall inside the cluster
+
+By default, all pods can talk to all pods
+NetworkPolicies enforce Zero Trust networking
+
+# By default, ALL traffic is allowed:
+- Pod to Pod (any namespace)
+- Pod to Service
+- Pod to External
+- Ingress from anywhere
+- Egress to anywhere
+
+# This is called "non-isolated" mode
+
+Example 1: Deny All Ingress Traffic
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all-ingress
+  namespace: default
+spec:
+  podSelector: {}      # Empty = all pods in namespace
+  policyTypes:
+  - Ingress
+  # No ingress rules = deny all
+  
+  
+ Egress traffic is any network traffic that leaves your system, network, or cluster. 
+ 
+ 
+Example 2: Deny All Egress Traffic 
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all-egress
+  namespace: default
+spec:
+  podSelector: {}
+  policyTypes:
+  - Egress
+  # No egress rules = deny all
+ 
+ 
+Example:
+
+---
+# Frontend can receive from anywhere
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: frontend-policy
+spec:
+  podSelector:
+    matchLabels:
+      tier: frontend
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - {}  # Allow all ingress
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          tier: backend
+    ports:
+    - protocol: TCP
+      port: 8080
+---
+# Backend accepts only from frontend
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: backend-policy
+spec:
+  podSelector:
+    matchLabels:
+      tier: backend
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          tier: frontend
+    ports:
+    - protocol: TCP
+      port: 8080
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          tier: database
+    ports:
+    - protocol: TCP
+      port: 5432
+---
+# Database accepts only from backend
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: database-policy
+spec:
+  podSelector:
+    matchLabels:
+      tier: database
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          tier: backend
+    ports:
+    - protocol: TCP
+      port: 5432
+
+
+# Empty podSelector = all pods in namespace
+podSelector: {}
+
+# Empty namespaceSelector = all namespaces
+namespaceSelector: {}
+
+# Empty from/to = allow all
+ingress:
+- {}  # Allow all ingress
+
+---------------------------------------------------
+
+Q what is difference between virtualService and NetworkPolicy
+
+| Feature              | VirtualService      | NetworkPolicy     |
+| -------------------- | ------------------- | ----------------- |
+| Layer                | L7 (HTTP/gRPC)      | L3/L4 (IP/Port)   |
+| Purpose              | Traffic routing     | Network security  |
+| Tool                 | Istio               | Kubernetes native |
+| Controls             | How traffic flows   | Who can talk      |
+| Protocol awareness   | HTTP headers, paths | TCP/UDP only      |
+| Canary / Blue-Green  | ✅                   | ❌                 |
+| Security enforcement | ❌                   | ✅                 |
+
+| Real World     | Kubernetes     |
+| -------------- | -------------- |
+| Traffic police | VirtualService |
+| Security gate  | NetworkPolicy  |
+
+# virtualService Works with:
+- HTTP headers
+- URLs/paths
+- Query parameters
+- HTTP methods
+- Cookies
+- User identity (JWT)
+
+# ❌ NOT Kubernetes native
+# Istio Custom Resource Definition (CRD)
+# Requires Istio service mesh
+
+
+⚠️ Important Gotchas (Interview Gold)
+🔴 VirtualService does NOT provide security
+It cannot block pod-to-pod access
+It assumes traffic is already allowed
+
+🔴 NetworkPolicy cannot do routing
+No URL/path/header awareness
+Cannot do canary or retries
+	  
+---------------------------------
+    GATEWAYAPI
+---------------------------------
+
+minikube start -p gw-demo-cluster # -p is profile
+
+C:\Users\Admin>minikube profile list
+
+
+C:\Users\Admin>minikube profile gw-demo-cluster
+
+
+# install gateway api 
+
+# we will use envoy
+E:\Kubernetes Gateway\kubernetes-gateway-api\00-install>helm install eg oci://docker.io/envoyproxy/gateway-helm --version v1.6.1 -n envoy-gateway-system --create-namespace
+
+E:\Kubernetes Gateway\kubernetes-gateway-api\00-install>kubectl get pods -n envoy-gateway-system
+NAME                             READY   STATUS    RESTARTS   AGE
+envoy-gateway-64d8866b44-fww4l   1/1     Running   0          89s
+
+
+E:\Kubernetes Gateway\kubernetes-gateway-api\01-basic-deploy>kubectl apply -f svc_account.yaml -n envoy-gateway-system
+serviceaccount/backend created
+
+E:\Kubernetes Gateway\kubernetes-gateway-api\01-basic-deploy>kubectl apply -f deploy.yaml -n envoy-gateway-system
+deployment.apps/backend created
+
+E:\Kubernetes Gateway\kubernetes-gateway-api\01-basic-deploy>kubectl apply -f svc.yaml -n envoy-gateway-system
+service/backend created
+
+E:\Kubernetes Gateway\kubernetes-gateway-api\01-basic-deploy>kubectl get svc -n envoy-gateway-system
+NAME            TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                                            AGE
+backend         ClusterIP   10.107.54.217   <none>        3000/TCP                                           35s
+envoy-gateway   ClusterIP   10.103.7.148    <none>        18000/TCP,18001/TCP,18002/TCP,19001/TCP,9443/TCP   12m
+
+
+
+E:\Kubernetes Gateway\kubernetes-gateway-api\01-basic-deploy>minikube ssh
+docker@gw-demo-cluster:~$ curl  10.107.54.217:3000
+{
+ "path": "/",
+ "host": "10.107.54.217:3000",
+ "method": "GET",
+ "proto": "HTTP/1.1",
+ "headers": {
+  "Accept": [
+   "*/*"
+  ],
+  "User-Agent": [
+   "curl/7.81.0"
+  ]
+ },
+ "namespace": "envoy-gateway-system",
+ "ingress": "",
+ "service": "",
+ "pod": "backend-77d4d5968-gqn6w"
+}docker@gw-demo-cluster:~$
+
+
+
+
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: eg
+spec:
+  controllerName: gateway.envoyproxy.io/gatewayclass-controller #envoy
+
+------
+
+E:\Kubernetes Gateway\kubernetes-gateway-api\01-basic-deploy>kubectl apply -f gateway_class.yaml
+gatewayclass.gateway.networking.k8s.io/eg created
+
+
+
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: eg
+spec:
+  gatewayClassName: eg
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+
+
+E:\Kubernetes Gateway\kubernetes-gateway-api\01-basic-deploy>kubectl apply -f gateway.yaml -n envoy-gateway-system
+gateway.gateway.networking.k8s.io/eg created
+
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: backend
+spec:
+  parentRefs:
+    - name: eg
+  hostnames:
+    - "www.example.com"
+  rules:
+    - backendRefs:
+        - group: ""
+          kind: Service
+          name: backend
+          port: 3000
+          weight: 1
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
+
+
+E:\Kubernetes Gateway\kubernetes-gateway-api\01-basic-deploy>kubectl apply -f httproute.yaml -n envoy-gateway-system
+httproute.gateway.networking.k8s.io/backend created
+
+
+E:\Kubernetes Gateway\kubernetes-gateway-api\01-basic-deploy>kubectl get pods -n envoy-gateway-system
+NAME                                                      READY   STATUS    RESTARTS   AGE
+backend-77d4d5968-gqn6w                                   1/1     Running   0          15m
+envoy-envoy-gateway-system-eg-5391c79d-78cc567867-qbp8n   2/2     Running   0          5m3s
+envoy-gateway-64d8866b44-fww4l                            1/1     Running   0          27m
+
+E:\Kubernetes Gateway\kubernetes-gateway-api\01-basic-deploy>kubectl get svc -n envoy-gateway-system
+NAME                                     TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)                                            AGE
+backend                                  ClusterIP      10.107.54.217   <none>        3000/TCP                                           16m
+envoy-envoy-gateway-system-eg-5391c79d   LoadBalancer   10.102.222.80   <pending>     80:30234/TCP                                       6m37s
+envoy-gateway                            ClusterIP      10.103.7.148    <none>        18000/TCP,18001/TCP,18002/TCP,19001/TCP,9443/TCP   28m
+
+
+
+
+# lets do url rewrite
+
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: http-filter-url-rewrite
+spec:
+  parentRefs:
+    - name: eg
+  hostnames:
+    - path.rewrite.example
+  rules:
+    - matches:
+      - path:
+          value: "/get"
+      filters:
+      - type: URLRewrite
+        urlRewrite:
+          path:
+            type: ReplacePrefixMatch
+            replacePrefixMatch: /replace
+      backendRefs:
+      - name: backend
+        port: 3000
+		
+		
+E:\Kubernetes Gateway\kubernetes-gateway-api\02-url-rewrite>kubectl apply -f rewrite-httproute.yaml -n envoy-gateway-system
+httproute.gateway.networking.k8s.io/http-filter-url-rewrite created	
+
+
+E:\Kubernetes Gateway\kubernetes-gateway-api\02-url-rewrite>curl -L -vvv --verbose  --header "host: path.rewrite.example" "http://localhost:9090/get/origin/path/extra"
+Warning: -v, --verbose overrides an earlier trace option
+* Host localhost:9090 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+*   Trying [::1]:9090...
+*   Trying 127.0.0.1:9090...
+* Connected to localhost (127.0.0.1) port 9090
+* using HTTP/1.x
+> GET /get/origin/path/extra HTTP/1.1
+> Host: path.rewrite.example
+> User-Agent: curl/8.13.0
+> Accept: */*
+>
+* Request completely sent off
+< HTTP/1.1 200 OK
+< content-type: application/json
+< x-content-type-options: nosniff
+< date: Sun, 21 Dec 2025 10:59:56 GMT
+< content-length: 507
+<
+{
+ "path": "/replace/origin/path/extra",                 # re-written
+ "host": "path.rewrite.example",
+ "method": "GET",
+ "proto": "HTTP/1.1",
+ "headers": {
+  "Accept": [
+   "*/*"
+  ],
+  "User-Agent": [
+   "curl/8.13.0"
+  ],
+  "X-Envoy-External-Address": [
+   "127.0.0.1"
+  ],
+  "X-Forwarded-For": [
+   "10.244.0.7"
+  ],
+  "X-Forwarded-Proto": [
+   "http"
+  ],
+  "X-Request-Id": [
+   "f045f1e7-6567-48be-aa23-be145e632a6d"
+  ]
+ },
+ "namespace": "envoy-gateway-system",
+ "ingress": "",
+ "service": "",
+ "pod": "backend-77d4d5968-gqn6w"
+}* Connection #0 to host localhost left intact
+
+
+
+# trafiic spliting
+
+E:\Kubernetes Gateway\kubernetes-gateway-api\03-traffic-spiltting\backend-2>kubectl apply -f svc_account.yaml -n envoy-gateway-system
+serviceaccount/backend-2 created
+
+E:\Kubernetes Gateway\kubernetes-gateway-api\03-traffic-spiltting\backend-2>kubectl apply -f deploy.yaml -n envoy-gateway-system
+deployment.apps/backend-2 created
+
+E:\Kubernetes Gateway\kubernetes-gateway-api\03-traffic-spiltting\backend-2>kubectl apply -f svc.yaml -n envoy-gateway-system
+service/backend-2 created
+
+
+E:\Kubernetes Gateway\kubernetes-gateway-api\03-traffic-spiltting\backend-2>kubectl get all  -n envoy-gateway-system
+NAME                                                          READY   STATUS    RESTARTS   AGE
+pod/backend-2-6648884cb-vcxpt                                 1/1     Running   0          88s
+pod/backend-77d4d5968-gqn6w                                   1/1     Running   0          38m
+pod/envoy-envoy-gateway-system-eg-5391c79d-78cc567867-qbp8n   2/2     Running   0          28m
+pod/envoy-gateway-64d8866b44-fww4l                            1/1     Running   0          50m
+
+NAME                                             TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)                                            AGE
+service/backend                                  ClusterIP      10.107.54.217   <none>        3000/TCP                                           38m
+service/backend-2                                ClusterIP      10.96.170.158   <none>        3000/TCP                                           67s
+service/envoy-envoy-gateway-system-eg-5391c79d   LoadBalancer   10.102.222.80   <pending>     80:30234/TCP                                       28m
+service/envoy-gateway                            ClusterIP      10.103.7.148    <none>        18000/TCP,18001/TCP,18002/TCP,19001/TCP,9443/TCP   50m
+
+NAME                                                     READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/backend                                  1/1     1            1           38m
+deployment.apps/backend-2                                1/1     1            1           88s
+deployment.apps/envoy-envoy-gateway-system-eg-5391c79d   1/1     1            1           28m
+deployment.apps/envoy-gateway                            1/1     1            1           50m
+
+NAME                                                                DESIRED   CURRENT   READY   AGE
+replicaset.apps/backend-2-6648884cb                                 1         1         1       88s
+replicaset.apps/backend-77d4d5968                                   1         1         1       38m
+replicaset.apps/envoy-envoy-gateway-system-eg-5391c79d-78cc567867   1         1         1       28m
+replicaset.apps/envoy-gateway-64d8866b44                            1         1         1       50m
+
+
+
+
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: http-headers
+spec:
+  parentRefs:
+  - name: eg
+  hostnames:
+  - backends.example
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - group: ""
+      kind: Service
+      name: backend
+      port: 3000
+    - group: ""
+      kind: Service
+      name: backend-2
+      port: 3000
+
+
+E:\Kubernetes Gateway\kubernetes-gateway-api\03-traffic-spiltting>kubectl apply -f httproute_traffic_splitting.yaml -n envoy-gateway-system
+httproute.gateway.networking.k8s.io/http-headers created
+
+
+E:\Kubernetes Gateway\kubernetes-gateway-api\03-traffic-spiltting>curl --header "host: backends.example" "http://localhost:9090/get/"
+{
+ "path": "/get/",
+ "host": "backends.example",
+ "method": "GET",
+ "proto": "HTTP/1.1",
+ "headers": {
+  "Accept": [
+   "*/*"
+  ],
+  "User-Agent": [
+   "curl/8.13.0"
+  ],
+  "X-Envoy-External-Address": [
+   "127.0.0.1"
+  ],
+  "X-Forwarded-For": [
+   "10.244.0.7"
+  ],
+  "X-Forwarded-Proto": [
+   "http"
+  ],
+  "X-Request-Id": [
+   "bb055bd3-2b5e-4fbd-a7ed-bd419abdb04f"
+  ]
+ },
+ "namespace": "envoy-gateway-system",
+ "ingress": "",
+ "service": "",
+ "pod": "backend-77d4d5968-gqn6w"    # pod 1
+}
+E:\Kubernetes Gateway\kubernetes-gateway-api\03-traffic-spiltting>curl --header "host: backends.example" "http://localhost:9090/get/"
+{
+ "path": "/get/",
+ "host": "backends.example",
+ "method": "GET",
+ "proto": "HTTP/1.1",
+ "headers": {
+  "Accept": [
+   "*/*"
+  ],
+  "User-Agent": [
+   "curl/8.13.0"
+  ],
+  "X-Envoy-External-Address": [
+   "127.0.0.1"
+  ],
+  "X-Forwarded-For": [
+   "10.244.0.7"
+  ],
+  "X-Forwarded-Proto": [
+   "http"
+  ],
+  "X-Request-Id": [
+   "b27aea79-cccc-46e9-84eb-83fe8990623e"
+  ]
+ },
+ "namespace": "envoy-gateway-system",
+ "ingress": "",
+ "service": "",
+ "pod": "backend-2-6648884cb-vcxpt"  # pod2
+}	  
+
+
+
+# weighted load balance
+
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: http-headers
+spec:
+  parentRefs:
+  - name: eg
+  hostnames:
+  - backends.example
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - group: ""
+      kind: Service
+      name: backend
+      port: 3000
+      weight: 8 #80%
+    - group: ""
+      kind: Service
+      name: backend-2
+      port: 3000
+      weight: 2 #20%
+	  
+
+E:\Kubernetes Gateway\kubernetes-gateway-api\04-weighted>kubectl apply -f httproute_weighted.yaml -n envoy-gateway-system
+httproute.gateway.networking.k8s.io/http-headers configured	  
+
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------------
+OBSERVALIBILITY
+----------------------------------------------------------------------------------------------------------------
+
+
+E:\observability-zero-to-hero\day-2>helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+"prometheus-community" already exists with the same configuration, skipping
+
+E:\observability-zero-to-hero\day-2>helm repo update
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "kubeshark" chart repository
+...Successfully got an update from the "istio" chart repository
+...Successfully got an update from the "grafana" chart repository
+...Successfully got an update from the "prometheus-community" chart repository
+...Successfully got an update from the "bitnami" chart repository
+Update Complete. ⎈Happy Helming!⎈
+
+E:\observability-zero-to-hero\day-2>kubectl create ns monitoring
+namespace/monitoring created
+
+E:\observability-zero-to-hero\day-2>helm install monitoring prometheus-community/kube-prometheus-stack -n monitoring -f ./custom_kube_prometheus_stack.yml
+level=WARN msg="unable to find exact version; falling back to closest available version" chart=kube-prometheus-stack requested="" selected=80.6.0
